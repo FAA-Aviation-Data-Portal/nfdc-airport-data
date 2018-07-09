@@ -1,0 +1,74 @@
+{
+  "name": "nfdc-airport-data",
+  "description": "National Flight Data Center’s (NFDC) 28 Day NASR Subscription, Airports and Other Landing Facilities",
+  "version": "0.0.0",
+  "author": {
+    "name": "Forrest Desjardins",
+    "email": "desjardinsfg@gmail.com",
+    "url": "github.com/fdesjardins"
+  },
+  "dependencies": {
+    "superagent": "^4.0.0-beta.5"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.2",
+    "mocha": "^5.2.0",
+    "nyc": "^13.0.1",
+    "standard": "^12.0.1"
+  },
+  "engines": {
+    "node": ">=7"
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard"
+    ],
+    "rules": {
+      "object-curly-spacing": [
+        2,
+        "always"
+      ],
+      "array-bracket-spacing": [
+        2,
+        "always"
+      ],
+      "func-style": [
+        2,
+        "expression"
+      ],
+      "prefer-arrow-callback": [
+        2,
+        {
+          "allowNamedFunctions": false
+        }
+      ]
+    }
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "airport",
+    "runway",
+    "remarks",
+    "schedules",
+    "5010",
+    "NASR",
+    "NFDC",
+    "FAA",
+    "aviation"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "nyc": {
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  },
+  "repository": "ResourceDataInc/airport-data",
+  "scripts": {
+    "test": "standard *.js && nyc ./node_modules/.bin/mocha --opts mocha.opts test.js"
+  }
+}
