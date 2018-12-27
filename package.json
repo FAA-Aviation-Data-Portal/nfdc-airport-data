@@ -1,7 +1,7 @@
 {
   "name": "nfdc-airport-data",
   "description": "National Flight Data Center’s (NFDC) 28 Day NASR Subscription, Airports and Other Landing Facilities",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": {
     "name": "Forrest Desjardins",
     "email": "desjardinsfg@gmail.com",
