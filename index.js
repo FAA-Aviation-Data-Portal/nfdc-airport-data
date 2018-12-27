@@ -24,11 +24,10 @@ const defaultOptions = {
 }
 
 /**
- * Airport Facilities Data
+ * Main fetching method used for each data type
  */
-exports.facilities = async (options = defaultOptions) => {
+const fetch = async (url, options = defaultOptions) => {
   const queryParams = Object.assign({}, defaultOptions, options)
-
   try {
     const data = await superagent
       .get(nfdcFacilitiesBaseUri)
@@ -39,69 +38,29 @@ exports.facilities = async (options = defaultOptions) => {
       return parseData(data.text)
     }
   } catch (err) {
-    console.error('Could not fetch facilities data', err)
+    console.error(`Could not fetch data from ${url}`, err)
   }
 }
+
+/**
+ * Airport Facilities Data
+ */
+exports.facilities = options => fetch(nfdcFacilitiesBaseUri, options)
 
 /**
  * Airport Runways Data
  */
-exports.runways = async (options = defaultOptions) => {
-  const queryParams = Object.assign({}, defaultOptions, options)
-
-  try {
-    const data = await superagent
-      .get(nfdcRunwaysBaseUri)
-      .query(queryParams)
-      .buffer()
-
-    if (data.text) {
-      return parseData(data.text)
-    }
-  } catch (err) {
-    console.error('Could not fetch runways data', err)
-  }
-}
+exports.runways = options => fetch(nfdcRunwaysBaseUri, options)
 
 /**
  * Airport Remarks Data
  */
-exports.remarks = async (options = defaultOptions) => {
-  const queryParams = Object.assign({}, defaultOptions, options)
-
-  try {
-    const data = await superagent
-      .get(nfdcRemarksBaseUri)
-      .query(queryParams)
-      .buffer()
-
-    if (data.text) {
-      return parseData(data.text)
-    }
-  } catch (err) {
-    console.error('Could not fetch remarks data', err)
-  }
-}
+exports.remarks = options => fetch(nfdcRemarksBaseUri, options)
 
 /**
  * Airport Schedules Data
  */
-exports.schedules = async (options = defaultOptions) => {
-  const queryParams = Object.assign({}, defaultOptions, options)
-
-  try {
-    const data = await superagent
-      .get(nfdcSchedulesBaseUri)
-      .query(queryParams)
-      .buffer()
-
-    if (data.text) {
-      return parseData(data.text)
-    }
-  } catch (err) {
-    console.error('Could not fetch schedules data', err)
-  }
-}
+exports.schedules = options => fetch(nfdcSchedulesBaseUri, options)
 
 /**
  * Parse the raw delimited data into an array of objects
@@ -125,7 +84,6 @@ const parseData = data => {
           : title === 'LastOwnerInformationDate'
             ? row[i]
             : tryParseNumber(row[i])
-
       // The documents have single quotes around some fields
       // that aren't needed so we can remove them here
       if (parsedRow[title] && typeof parsedRow[title] === 'string') {
@@ -137,7 +95,6 @@ const parseData = data => {
     if (parsedRow.SiteNumber === null || parsedRow.SiteNumber === undefined) {
       return
     }
-
     parsed.push(parsedRow)
   })
 

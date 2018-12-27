@@ -1,10 +1,10 @@
 # nfdc-airport-data
 
-[![Build Status][travis-image]][travis-url]
-[![NPM Version][npm-image]][npm-url]
-[![Coverage][coveralls-image]][coveralls-url]
-
 National Flight Data Center’s (NFDC) 28 Day NASR Subscription, Airports and Other Landing Facilities
+
+[![NPM Version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Coverage][coveralls-image]][coveralls-url]
 
 ## Installation
 
