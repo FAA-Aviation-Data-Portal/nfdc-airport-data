@@ -1,5 +1,5 @@
 {
-  "name": "nfdc-airport-data",
+  "name": "@faa-aviation-data-portal/nfdc-airport-data",
   "description": "National Flight Data Center’s (NFDC) 28 Day NASR Subscription, Airports and Other Landing Facilities",
   "version": "0.0.1",
   "author": {
@@ -67,7 +67,7 @@
       "text"
     ]
   },
-  "repository": "ResourceDataInc/airport-data",
+  "repository": "FAA-Aviation-Data-Portal/nfdc-airport-data",
   "scripts": {
     "test": "standard *.js && nyc mocha test.js"
   }
