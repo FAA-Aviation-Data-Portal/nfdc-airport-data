@@ -8,13 +8,13 @@
     "url": "github.com/fdesjardins"
   },
   "dependencies": {
-    "superagent": "^4.1.0"
+    "superagent": "^5.0.5"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "coveralls": "^3.0.2",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
+    "coveralls": "^3.0.3",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.0",
     "standard": "^12.0.1"
   },
   "engines": {
@@ -49,15 +49,15 @@
     "index.js"
   ],
   "keywords": [
-    "airport",
-    "runway",
-    "remarks",
-    "schedules",
     "5010",
+    "FAA",
     "NASR",
     "NFDC",
-    "FAA",
-    "aviation"
+    "airport",
+    "aviation",
+    "remarks",
+    "runway",
+    "schedules"
   ],
   "license": "MIT",
   "main": "index.js",
@@ -69,6 +69,6 @@
   },
   "repository": "ResourceDataInc/airport-data",
   "scripts": {
-    "test": "standard *.js && nyc ./node_modules/.bin/mocha --opts mocha.opts test.js"
+    "test": "standard *.js && nyc mocha test.js"
   }
 }
