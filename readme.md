@@ -8,8 +8,8 @@ National Flight Data Center’s (NFDC) 28 Day NASR Subscription, Airports and Ot
 
 ## Installation
 
-```sh
-npm install --save airport-data
+```console
+$ npm install --save airport-data
 ```
 
 ## Usage
@@ -69,8 +69,15 @@ const defaultOptions = {
 }
 ```
 
-All options values can be empty for searching all regions, districts, etc., or one
-of the values defined at https://www.faa.gov/airports/airport_safety/airportdata_5010/menu/.
+All options values can be empty for searching all regions, districts, etc. You can also see currently available options using the following methods:
+
+##### `airportData.regions()`
+##### `airportData.districts()`
+##### `airportData.states()`
+##### `airportData.counties()`
+##### `airportData.cities()`
+##### `airportData.uses()`
+##### `airportData.certifications()`
 
 ## License
 
