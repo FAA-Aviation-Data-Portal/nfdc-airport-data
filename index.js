@@ -1,13 +1,12 @@
 const superagent = require('superagent')
+const cheerio = require('cheerio')
 
-const nfdcFacilitiesBaseUri =
-  'https://www.faa.gov/airports/airport_safety/airportdata_5010/menu/nfdcfacilitiesexport.cfm'
-const nfdcRunwaysBaseUri =
-  'https://www.faa.gov/airports/airport_safety/airportdata_5010/menu/nfdcrunwaysexport.cfm'
-const nfdcRemarksBaseUri =
-  'https://www.faa.gov/airports/airport_safety/airportdata_5010/menu/nfdcremarksexport.cfm'
-const nfdcSchedulesBaseUri =
-  'https://www.faa.gov/airports/airport_safety/airportdata_5010/menu/nfdcschedulesexport.cfm'
+const nfdcBaseUri =
+  'https://www.faa.gov/airports/airport_safety/airportdata_5010'
+const nfdcFacilitiesBaseUri = `${nfdcBaseUri}/menu/nfdcfacilitiesexport.cfm`
+const nfdcRunwaysBaseUri = `${nfdcBaseUri}/menu/nfdcrunwaysexport.cfm`
+const nfdcRemarksBaseUri = `${nfdcBaseUri}/menu/nfdcremarksexport.cfm`
+const nfdcSchedulesBaseUri = `${nfdcBaseUri}/menu/nfdcschedulesexport.cfm`
 
 /**
  * Query parameter options; for possible options, see
@@ -29,13 +28,13 @@ const defaultOptions = {
 const fetch = async (url, options = defaultOptions) => {
   const queryParams = Object.assign({}, defaultOptions, options)
   try {
-    const data = await superagent
-      .get(nfdcFacilitiesBaseUri)
+    const response = await superagent
+      .get(url)
       .query(queryParams)
       .buffer()
 
-    if (data.text) {
-      return parseData(data.text)
+    if (response.text) {
+      return parseData(response.text)
     }
   } catch (err) {
     console.error(`Could not fetch data from ${url}`, err)
@@ -43,24 +42,87 @@ const fetch = async (url, options = defaultOptions) => {
 }
 
 /**
+ * Extract the given form options from a cheerio instance
+ */
+const extractOptions = ($, id) => {
+  const $options = $(`select#${id} > option`)
+  const options = []
+  $options.each(o => options.push($options[o].attribs.value))
+  return options.filter(o => o !== '')
+}
+
+const capitalizeWord = str => `${str[0].toUpperCase()}${str.slice(1)}`
+
+/**
+ * Main fetching method used for available form select options
+ */
+const fetchFormOptions = async () => {
+  try {
+    const response = await superagent.get(nfdcBaseUri)
+    if (response.text) {
+      const $ = cheerio.load(response.text)
+      const options = {}
+      Object.keys(defaultOptions).map(optionName => {
+        options[optionName] = extractOptions($, capitalizeWord(optionName))
+      })
+      return options
+    }
+  } catch (err) {
+    console.error(`Could not fetch data from ${nfdcBaseUri}`, err)
+  }
+}
+
+/**
+ * Selection Form Options
+ */
+exports.regions = async () => {
+  const { region } = await fetchFormOptions()
+  return { regions: region }
+}
+exports.districts = async () => {
+  const { district } = await fetchFormOptions()
+  return { districts: district }
+}
+exports.states = async () => {
+  const { state } = await fetchFormOptions()
+  return { states: state }
+}
+exports.counties = async () => {
+  const { county } = await fetchFormOptions()
+  return { counties: county }
+}
+exports.cities = async () => {
+  const { city } = await fetchFormOptions()
+  return { cities: city }
+}
+exports.uses = async () => {
+  const { use } = await fetchFormOptions()
+  return { uses: use }
+}
+exports.certifications = async () => {
+  const { certification } = await fetchFormOptions()
+  return { certifications: certification }
+}
+
+/**
  * Airport Facilities Data
  */
-exports.facilities = options => fetch(nfdcFacilitiesBaseUri, options)
+exports.facilities = async options => fetch(nfdcFacilitiesBaseUri, options)
 
 /**
  * Airport Runways Data
  */
-exports.runways = options => fetch(nfdcRunwaysBaseUri, options)
+exports.runways = async options => fetch(nfdcRunwaysBaseUri, options)
 
 /**
  * Airport Remarks Data
  */
-exports.remarks = options => fetch(nfdcRemarksBaseUri, options)
+exports.remarks = async options => fetch(nfdcRemarksBaseUri, options)
 
 /**
  * Airport Schedules Data
  */
-exports.schedules = options => fetch(nfdcSchedulesBaseUri, options)
+exports.schedules = async options => fetch(nfdcSchedulesBaseUri, options)
 
 /**
  * Parse the raw delimited data into an array of objects
