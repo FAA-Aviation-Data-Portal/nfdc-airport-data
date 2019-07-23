@@ -9,7 +9,7 @@ National Flight Data Center’s (NFDC) 28 Day NASR Subscription, Airports and Ot
 ## Installation
 
 ```console
-$ npm install --save airport-data
+$ npm install --save @faa-aviation-data-portal/nfdc-airport-data
 ```
 
 ## Usage
@@ -85,7 +85,7 @@ MIT © [Forrest Desjardins](https://github.com/fdesjardins)
 
 [travis-url]: https://travis-ci.org/ResourceDataInc/nfdc-airport-data
 [travis-image]: https://img.shields.io/travis/ResourceDataInc/nfdc-airport-data.svg?style=flat
-[npm-url]: https://www.npmjs.com/package/nfdc-airport-data
-[npm-image]: https://img.shields.io/npm/v/nfdc-airport-data.svg?style=flat
+[npm-url]: https://www.npmjs.com/package/@faa-aviation-data-portal/nfdc-airport-data
+[npm-image]: https://img.shields.io/npm/v/@faa-aviation-data-portal/nfdc-airport-data.svg?style=flat
 [coveralls-url]: https://coveralls.io/r/ResourceDataInc/nfdc-airport-data
 [coveralls-image]: https://img.shields.io/coveralls/ResourceDataInc/nfdc-airport-data.svg?style=flat
