@@ -83,8 +83,8 @@ All options values can be empty for searching all regions, districts, etc. You c
 
 MIT © [Forrest Desjardins](https://github.com/fdesjardins)
 
-[build-url]: https://github.com/FAA-Aviation-Data-Portal/nfdc-airport-data/actions?query=workflow%3A%22Node.js+CI%22
-[build-image]: https://github.com/FAA-Aviation-Data-Portal/nfdc-airport-data/workflows/Node.js%20CI/badge.svg?branch=master&style=flat
+[build-url]: https://github.com/FAA-Aviation-Data-Portal/nfdc-airport-data/actions?query=workflow%3A%22build%22
+[build-image]: https://github.com/FAA-Aviation-Data-Portal/nfdc-airport-data/workflows/build/badge.svg?branch=master&style=flat
 [npm-url]: https://www.npmjs.com/package/@faa-aviation-data-portal/nfdc-airport-data
 [npm-image]: https://img.shields.io/npm/v/@faa-aviation-data-portal/nfdc-airport-data.svg?style=flat
 [coveralls-url]: https://coveralls.io/r/ResourceDataInc/nfdc-airport-data
