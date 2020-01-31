@@ -4,7 +4,6 @@ National Flight Data Center’s (NFDC) 28 Day NASR Subscription, Airports and Ot
 
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][build-image]][build-url]
-[![Coverage][coveralls-image]][coveralls-url]
 
 ## Installation
 
@@ -87,5 +86,3 @@ MIT © [Forrest Desjardins](https://github.com/fdesjardins)
 [build-image]: https://github.com/FAA-Aviation-Data-Portal/nfdc-airport-data/workflows/build/badge.svg?branch=master&style=flat
 [npm-url]: https://www.npmjs.com/package/@faa-aviation-data-portal/nfdc-airport-data
 [npm-image]: https://img.shields.io/npm/v/@faa-aviation-data-portal/nfdc-airport-data.svg?style=flat
-[coveralls-url]: https://coveralls.io/r/ResourceDataInc/nfdc-airport-data
-[coveralls-image]: https://img.shields.io/coveralls/ResourceDataInc/nfdc-airport-data.svg?style=flat
