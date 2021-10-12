@@ -1,5 +1,6 @@
 const superagent = require('superagent')
 const cheerio = require('cheerio')
+const Promise = require('bluebird')
 
 // Request URL: https://adip.faa.gov/agisServices/public-api/searchAirportData
 
@@ -91,7 +92,16 @@ const fetchFacilityDetails = async (locId) => {
 const fetch = async (options = defaultOptions) => {
   const facilityList = await fetchFacilityList(options)
 
-  const facilityDetails = facilityList.map(async facility => fetchFacilityDetails(facility.locId))
+  const facilityDetails = []
+  await Promise.map(
+    facilityList,
+    async (facility) => {
+      console.log('checking', facility.locId)
+      const details = await fetchFacilityDetails(facility.locId)
+      facilityDetails.push(details)
+    },
+    { concurrency: 5 }
+  )
 
   return Promise.all(facilityDetails)
 }
