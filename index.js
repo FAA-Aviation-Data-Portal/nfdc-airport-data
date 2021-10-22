@@ -31,6 +31,8 @@ const fetch = async (url, options = defaultOptions) => {
     const response = await superagent
       .get(url)
       .query(queryParams)
+      .timeout({ deadline: 30000 })
+      .retry(3)
       .buffer()
 
     if (response.text) {
@@ -59,6 +61,8 @@ const capitalizeWord = str => `${str[0].toUpperCase()}${str.slice(1)}`
 const fetchFormOptions = async () => {
   try {
     const response = await superagent.get(nfdcBaseUri)
+      .timeout({ deadline: 30000 })
+      .retry(3)
     if (response.text) {
       const $ = cheerio.load(response.text)
       const options = {}
