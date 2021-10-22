@@ -70,6 +70,6 @@
   },
   "repository": "FAA-Aviation-Data-Portal/nfdc-airport-data",
   "scripts": {
-    "test": "standard *.js && nyc mocha test.js"
+    "test": "standard *.js && nyc mocha --timeout 100000 test.js"
   }
 }
