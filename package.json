@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "superagent": "^5.2.1"
+    "superagent": "^6.1.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -70,6 +70,6 @@
   },
   "repository": "FAA-Aviation-Data-Portal/nfdc-airport-data",
   "scripts": {
-    "test": "standard *.js && nyc mocha test.js"
+    "test": "standard *.js && nyc mocha --timeout 100000 test.js"
   }
 }
