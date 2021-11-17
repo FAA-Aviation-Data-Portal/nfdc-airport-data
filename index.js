@@ -75,7 +75,7 @@ const fetchFormOptions = async () => {
     if (response.text) {
       const $ = cheerio.load(response.text)
       const options = {}
-      Object.keys(defaultOptions).map(optionName => {
+      Object.keys(defaultOptions).forEach(optionName => {
         options[optionName] = extractOptions($, capitalizeWord(optionName))
       })
       return options
@@ -150,9 +150,9 @@ const parseData = data => {
   )
 
   const parsed = []
-  rows.slice(1).map(row => {
+  rows.slice(1).forEach(row => {
     const parsedRow = {}
-    columnTitles.map((title, i) => {
+    columnTitles.forEach((title, i) => {
       parsedRow[title] =
         row[i] === ''
           ? null
