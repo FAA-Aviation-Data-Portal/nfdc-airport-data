@@ -1,15 +1,20 @@
 const superagent = require('superagent')
 const cheerio = require('cheerio')
 const Promise = require('bluebird')
+const exceljs = require('exceljs')
 
 // Request URL: https://adip.faa.gov/agisServices/public-api/searchAirportData
 
 const adipBaseUri = 'https://adip.faa.gov/agis/public/#/airportSearch/advanced'
-const adipSearchFormUri = 'https://adip.faa.gov/agis/ng-shared/html/airportSearch.html'
-const adipFacilitySearchUri = 'https://adip.faa.gov/agisServices/public-api/searchAirportData'
-const adipAirportDetailsUri = 'https://adip.faa.gov/agisServices/public-api/getAirportDetails'
+const adipSearchFormUri =
+  'https://adip.faa.gov/agis/ng-shared/html/airportSearch.html'
+const adipFacilitySearchUri =
+  'https://adip.faa.gov/agisServices/public-api/searchAirportData'
+const adipAirportDetailsUri =
+  'https://adip.faa.gov/agisServices/public-api/getAirportDetails'
 const adipApiUri = 'https://adip.faa.gov/agisServices/api/nq'
-
+const adipDownloadUrl =
+  'https://adip.faa.gov/agisServices/public-api/generatePubicAirportDataAsExcel'
 const adipAuthHeader = 'Basic 3f647d1c-a3e7-415e-96e1-6e8415e6f209-ADIP'
 
 // const nfdcBaseUri = ''
@@ -71,7 +76,37 @@ const fetchFacilityList = async (options = defaultOptions) => {
   }
 }
 
-const fetchFacilityDetails = async (locId) => {
+const fetchFacilityDetailsAsExcel = async siteIds => {
+  try {
+    // get the list of all facilities with the given options
+    const response = await superagent
+      .post(adipDownloadUrl)
+      .send({ siteIds: siteIds })
+      .set({
+        Authorization: adipAuthHeader
+      })
+      .buffer()
+
+    const airportsXlsx = new exceljs.Workbook()
+    await airportsXlsx.xlsx.load(response.body)
+
+    const headers = airportsXlsx.worksheets[0].getRow(1).values
+
+    const airports = []
+    airportsXlsx.worksheets[0].eachRow((row, rowNumber) => {
+      const airport = {}
+      for (let i = 0; i < headers.length; i++) {
+        airport[headers[i]] = row.values[i]
+      }
+      airports.push(airport)
+    })
+
+    return airports
+  } catch (err) {
+    console.error(`Could not fetch data from ${adipAirportDetailsUri}`, err)
+  }
+}
+const fetchFacilityDetails = async locId => {
   try {
     // get the list of all facilities with the given options
     const response = await superagent
@@ -92,18 +127,11 @@ const fetchFacilityDetails = async (locId) => {
 const fetch = async (options = defaultOptions) => {
   const facilityList = await fetchFacilityList(options)
 
-  const facilityDetails = []
-  await Promise.map(
-    facilityList,
-    async (facility) => {
-      console.log('checking', facility.locId)
-      const details = await fetchFacilityDetails(facility.locId)
-      facilityDetails.push(details)
-    },
-    { concurrency: 5 }
-  )
+  const siteIds = facilityList.map(f => f.siteId)
 
-  return Promise.all(facilityDetails)
+  const facilityDetails = await fetchFacilityDetailsAsExcel(siteIds)
+
+  return facilityDetails
 }
 
 // /**
@@ -139,7 +167,8 @@ const fetch = async (options = defaultOptions) => {
 
 const tmpFetchRegionFormOptions = async () => {
   try {
-    const response = await superagent.post(adipApiUri)
+    const response = await superagent
+      .post(adipApiUri)
       .send({ query: 'allRegions' })
       .set({
         Authorization: adipAuthHeader
