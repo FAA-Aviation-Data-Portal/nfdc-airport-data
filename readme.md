@@ -1,3 +1,7 @@
+## ⚠️ This project has been deprecated. ⚠️ 
+
+### The FAA data source this package relied on (https://www.faa.gov/airports/airport_safety/airportdata_5010) is no longer available. That page now redirects to the FAA Airport Data and Information Portal (ADIP). Because the format of the ADIP requests and returned data are significantly different from the old source, we do not plan to update this package to use ADIP.  
+
 # nfdc-airport-data
 
 National Flight Data Center’s (NFDC) 28 Day NASR Subscription, Airports and Other Landing Facilities
